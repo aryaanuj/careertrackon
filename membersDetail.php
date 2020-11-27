@@ -1,0 +1,7 @@
+membersDetail
+editStudent
+edit_membersDetail
+sidebar
+TGT_PGT_students
+view_videos
+add videos

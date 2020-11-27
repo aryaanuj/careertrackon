@@ -1,0 +1,100 @@
+
+<style>
+#transcript2,
+#transcript {
+  width: 100%;
+  height: 150px;
+}
+     /* CSS comes here */
+      body {
+          font-family: arial;
+      }
+      input {
+          padding:10px;
+          background-color:#6a67ce;
+          color: #FFFFFF;
+          border: 0px;
+          cursor:pointer;
+          border-radius: 5px;
+      }
+      #output {
+          background-color:#F9F9F9;
+          padding:10px;
+          width: 100%;
+          margin-top:20px;
+          line-height:30px;
+      }
+      .hide {
+          display:none;
+      }
+      .show {
+          display:block;
+      }
+</style>
+<textarea type="text" name="q" id="transcript" placeholder="Speak" class="keyboardInput"></textarea>
+<textarea type="text" name="qs" id="transcript2" placeholder="" class="keyboardInput"></textarea>
+
+<input  id="hindi" type="button" onclick="hindi_toggle()" value="Start (Hindi)"/>
+<input id="english" type="button" onclick="english_toggle()" value="Start (English)" />
+<script>
+var recognition = new webkitSpeechRecognition();
+recognition.continuous = true;
+recognition.interimResults = true;
+recognition.lang = "";
+
+var hindi_listening = false;
+var english_listening = false;
+
+function hindi_toggle(){
+  recognition.lang = "hi-IN";
+	if(hindi_listening) {
+		recognition.stop();  
+		hindi_listening = false;
+		document.getElementById('hindi').value = "Start (Hindi)";
+	}
+	else{
+    recognition.stop();
+      setTimeout(function(){
+        recognition.start();
+      },500);
+    english_listening = false;
+		hindi_listening = true;
+		document.getElementById('hindi').value   = "Stop (Hindi)";
+		document.getElementById('english').value = "Start (English)";
+	}
+}
+
+function english_toggle(){
+  recognition.lang = "";
+	if(english_listening) {
+		recognition.stop();  
+		english_listening = false;
+		document.getElementById('english').value = "Start (English)";
+	}
+	else{
+    recognition.stop();
+      setTimeout(function(){
+        recognition.start();
+      },500);
+    hindi_listening = false;
+		english_listening = true;
+		document.getElementById('english').value = "Stop (English)";
+		document.getElementById('hindi').value   = "Start (Hindi)";
+	}
+}
+
+recognition.onresult = function(event) {
+    var interim_transcript = '';
+	var final_transcript = '';
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        final_transcript += event.results[i][0].transcript;
+         document.getElementById('transcript').value += final_transcript;
+         document.getElementById('transcript2').value = final_transcript;
+      } else {
+        interim_transcript += event.results[i][0].transcript;
+        document.getElementById('transcript2').value = interim_transcript;
+      }
+    }
+  };
+</script>

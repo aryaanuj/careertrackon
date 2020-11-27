@@ -1,0 +1,1 @@
+<img class="new-banner-svg" alt="New" src="https://hrcdn.net/community-frontend/assets/svgs/new-banner-341e41b06d.svg">
